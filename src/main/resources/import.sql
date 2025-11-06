@@ -1,10 +1,10 @@
 insert into cozinha (id, nome) values (1, 'Tailandesa');
 insert into cozinha (id, nome) values (2, 'Indiana');
 
-insert into restaurante (id, nome, taxa_frete, cozinha_id) values (1, 'Comida Caseira', '10.00', 1)
-insert into restaurante (id, nome, taxa_frete, cozinha_id) values (2, 'Fast Food', '20.00', 1)
-insert into restaurante (id, nome, taxa_frete, cozinha_id) values (3, 'Pizzaria', '40.00', 2)
-insert into restaurante (id, nome, taxa_frete, cozinha_id) values (4, 'Comida Italiana', '30.00', 2)
+insert into restaurante (id, nome, taxa_frete, cozinha_id) values (1, 'Comida Caseira', 10.00, 1);
+insert into restaurante (id, nome, taxa_frete, cozinha_id) values (2, 'Fast Food', 20.00, 1);
+insert into restaurante (id, nome, taxa_frete, cozinha_id) values (3, 'Pizzaria', 40.00, 2);
+insert into restaurante (id, nome, taxa_frete, cozinha_id) values (4, 'Comida Italiana', 30.00, 2);
 
 insert into estado (id, nome) values (1, 'Paraná');
 insert into estado (id, nome) values (2, 'São Paulo');

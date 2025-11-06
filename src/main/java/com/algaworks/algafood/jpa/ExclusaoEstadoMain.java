@@ -27,16 +27,16 @@ public class ExclusaoEstadoMain {
 		cidade2.setId(2L);
 		cidade3.setId(3L);
 		
-		repositoryCidade.remover(cidade1);
-		repositoryCidade.remover(cidade2);
-		repositoryCidade.remover(cidade3);
+		repositoryCidade.remover(cidade1.getId());
+		repositoryCidade.remover(cidade2.getId());
+		repositoryCidade.remover(cidade3.getId());
 		
 		EstadoRepository repository = applicationContext.getBean(EstadoRepository.class);
 						
 		Estado estado = new Estado();
 		estado.setId(1L);
 		
-		repository.remover(estado);
+		repository.remover(estado.getId());
 		
 	}
 

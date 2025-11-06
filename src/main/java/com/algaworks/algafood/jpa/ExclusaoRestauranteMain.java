@@ -5,7 +5,6 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import com.algaworks.algafood.AlgafoodApiApplication;
-import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 
 public class ExclusaoRestauranteMain {
@@ -17,10 +16,7 @@ public class ExclusaoRestauranteMain {
 
 		RestauranteRepository repository = applicationContext.getBean(RestauranteRepository.class);
 		
-		Restaurante restaurante = new Restaurante();
-		restaurante.setId(1L);
-		
-		repository.remover(restaurante);
+		repository.remover(1L);
 		
 	}
 
