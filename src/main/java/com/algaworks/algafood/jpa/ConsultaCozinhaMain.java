@@ -18,7 +18,7 @@ public class ConsultaCozinhaMain {
 				AlgafoodApiApplication.class).web(WebApplicationType.NONE).run(args);
 
 		CozinhaRepository cadastroCozinha = applicationContext.getBean(CozinhaRepository.class);
-		List<Cozinha> cozinhas = cadastroCozinha.listar();
+		List<Cozinha> cozinhas = cadastroCozinha.findAll();
 
 		for (Cozinha cozinha : cozinhas) {
 			System.out.println(cozinha.getNome());

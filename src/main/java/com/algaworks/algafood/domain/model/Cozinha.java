@@ -1,7 +1,5 @@
 package com.algaworks.algafood.domain.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,7 +19,7 @@ public class Cozinha {
 	private Long id;
 	
 //	@JsonIgnore serve para tirar esta propriedade, mas o JsonProperty não pode estar presente, no Post quando estiver ativo, tem que colocar o nome da propriedade alterada "título": ""
-	@JsonProperty("título")
+//	@JsonProperty("título")
 	@Column(nullable = false)
 	private String nome;
 			

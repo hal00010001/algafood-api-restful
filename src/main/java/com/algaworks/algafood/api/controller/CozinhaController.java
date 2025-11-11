@@ -1,6 +1,7 @@
 package com.algaworks.algafood.api.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,12 +38,13 @@ public class CozinhaController {
 	private CadastroCozinhaService service;
 
 	@GetMapping
-	public List<Cozinha> listar() {		
-		return repository.listar();
+	public List<Cozinha> listar() {
+		return repository.findAll();
+//		return repository.listar();
 	}
 	
 	public CozinhasXmlWrapper listarXml() {
-		return new CozinhasXmlWrapper(repository.listar());				
+		return new CozinhasXmlWrapper(repository.findAll());				
 	}
 	
 	@PostConstruct
@@ -54,8 +56,14 @@ public class CozinhaController {
 //	O status pode ser alterado se necessário, mas normalmente o Spring já manda o status corretamente
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping("/{id}")
-	public Cozinha buscar(@PathVariable Long id) {
-		return repository.buscar(id);
+	public ResponseEntity<Cozinha> buscar(@PathVariable Long id) {
+		Optional<Cozinha> cozinha = repository.findById(id);
+		
+		if(cozinha.isPresent()) {
+			return ResponseEntity.ok(cozinha.get());
+		}
+		return ResponseEntity.notFound().build();
+//		return repository.buscar(id);
 	}
 	
 //	O ResponseEntity é usado quando é necessário fazer uma condição dentro do método
@@ -76,19 +84,19 @@ public class CozinhaController {
 		
 	}
 	
-	@GetMapping("/response-condicional/{id}")
-	public ResponseEntity<Cozinha> buscarResponseEntityCondicional(@PathVariable Long id){
-		
-		Cozinha cozinha = repository.buscar(id);
-		
-		if(cozinha != null) {
-			return ResponseEntity.ok(cozinha);
-		}
-		
-//		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-		return ResponseEntity.notFound().build();
-				
-	}
+	/*
+	 * @GetMapping("/response-condicional/{id}") public ResponseEntity<Cozinha>
+	 * buscarResponseEntityCondicional(@PathVariable Long id){
+	 * 
+	 * Cozinha cozinha = repository.buscar(id);
+	 * 
+	 * if(cozinha != null) { return ResponseEntity.ok(cozinha); }
+	 * 
+	 * // return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); return
+	 * ResponseEntity.notFound().build();
+	 * 
+	 * }
+	 */
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
@@ -98,22 +106,33 @@ public class CozinhaController {
 
 	@PutMapping("/{cozinhaId}")
 	public ResponseEntity<Cozinha> atualizar(@PathVariable("cozinhaId") Long id, @RequestBody Cozinha cozinha) {
-		Cozinha cozinhaAtual = repository.buscar(id);		
-		if(cozinhaAtual != null) {
-//			O terceiro item "id" é colocado pra ignorar a propriedade id quando copiar os objetos		
-			BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
-			service.salvar(cozinhaAtual);
-			
-			return ResponseEntity.ok(cozinhaAtual);			
-		}		
+		
+		Optional<Cozinha> cozinhaAtual = repository.findById(id);
+		
+		if(cozinhaAtual.isPresent()) {
+			BeanUtils.copyProperties(cozinha, cozinhaAtual.get(), "id");
+			Cozinha cozinhaSalva = repository.save(cozinhaAtual.get());
+			return ResponseEntity.ok(cozinhaSalva);
+		}
+		
 		return ResponseEntity.notFound().build();
+		
+		/*
+		 * Cozinha cozinhaAtual = repository.buscar(id); if(cozinhaAtual != null) { // O
+		 * terceiro item "id" é colocado pra ignorar a propriedade id quando copiar os
+		 * objetos BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
+		 * service.salvar(cozinhaAtual);
+		 * 
+		 * return ResponseEntity.ok(cozinhaAtual); } return
+		 * ResponseEntity.notFound().build();
+		 */
 		
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Cozinha> remover(@PathVariable Long id) {
-		try {
-			service.excluir(id);		
+		try {			
+			service.excluir(id);
 			return ResponseEntity.noContent().build();
 					
 		} catch (EntidadeNaoEncontradaException e) {
