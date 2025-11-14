@@ -2,7 +2,6 @@ package com.algaworks.algafood.domain.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
@@ -38,14 +37,18 @@ public class CadastroRestauranteService {
 		
 		restaurante.setCozinha(cozinha);
 //		restaurante.setCozinha(cozinha.get());
-		return restauranteRepository.salvar(restaurante);
+		return restauranteRepository.save(restaurante);
 	}
 
 	public void excluir(Long id) {
-		try {			
-			restauranteRepository.remover(id);
-		} catch (EmptyResultDataAccessException e) {
-			throw new EntidadeNaoEncontradaException(String.format("Não existe um cadastro de restaurante %d", id));
+		try {
+			if(!restauranteRepository.existsById(id)) {
+				throw new EntidadeNaoEncontradaException(
+						String.format("Não existe um cadastro de cozinha com o código %d", id));
+				
+			}
+			restauranteRepository.deleteById(id);
+				
 		} catch (DataIntegrityViolationException e) {
 			throw new EntidadeEmUsoException(
 					String.format("Restaurante de código %d não pode ser removido, pois está em uso", id));

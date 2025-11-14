@@ -1,5 +1,7 @@
 package com.algaworks.algafood.jpa;
 
+import java.util.Optional;
+
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -17,9 +19,9 @@ public class BuscaCidadeMain {
 
 		CidadeRepository repository = applicationContext.getBean(CidadeRepository.class);
 		
-		Cidade cidade = repository.buscar(1L);
+		Optional<Cidade> cidade = repository.findById(1L);
 
-		System.out.println(cidade.getNome());
+		System.out.println(cidade.get().getNome());
 
 	}
 

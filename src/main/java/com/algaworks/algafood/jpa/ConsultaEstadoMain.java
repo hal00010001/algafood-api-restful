@@ -18,7 +18,7 @@ public class ConsultaEstadoMain {
 				AlgafoodApiApplication.class).web(WebApplicationType.NONE).run(args);
 
 		EstadoRepository repository = applicationContext.getBean(EstadoRepository.class);
-		List<Estado> estados = repository.listar();
+		List<Estado> estados = repository.findAll();
 
 		for (Estado estado : estados) {
 			System.out.printf("%s\n", estado.getNome());

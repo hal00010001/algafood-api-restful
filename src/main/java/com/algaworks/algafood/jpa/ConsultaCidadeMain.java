@@ -18,7 +18,7 @@ public class ConsultaCidadeMain {
 				AlgafoodApiApplication.class).web(WebApplicationType.NONE).run(args);
 
 		CidadeRepository repository = applicationContext.getBean(CidadeRepository.class);
-		List<Cidade> cidades = repository.listar();
+		List<Cidade> cidades = repository.findAll();
 
 		for (Cidade cidade : cidades) {
 			System.out.printf("%s - %s\n", cidade.getNome(),

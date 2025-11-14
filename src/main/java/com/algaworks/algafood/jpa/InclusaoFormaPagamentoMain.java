@@ -24,8 +24,8 @@ public class InclusaoFormaPagamentoMain {
 		formaPagamento2.setDescricao("PIX");
 		
 		
-		formaPagamento1 = repository.salvar(formaPagamento1);
-		formaPagamento2 = repository.salvar(formaPagamento2);
+		formaPagamento1 = repository.save(formaPagamento1);
+		formaPagamento2 = repository.save(formaPagamento2);
 		
 		System.out.printf("%d - %s\n", formaPagamento1.getId(), formaPagamento1.getDescricao());
 		System.out.printf("%d - %s\n", formaPagamento2.getId(), formaPagamento2.getDescricao());

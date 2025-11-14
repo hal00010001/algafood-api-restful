@@ -21,7 +21,7 @@ public class AlteracaoFormaPagamentoMain {
 		formaPagamento.setId(1L);
 		formaPagamento.setDescricao("Boleto");
 		
-		repository.salvar(formaPagamento);
+		repository.save(formaPagamento);
 		
 	}
 

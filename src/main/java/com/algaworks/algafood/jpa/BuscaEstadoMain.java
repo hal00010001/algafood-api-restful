@@ -1,5 +1,7 @@
 package com.algaworks.algafood.jpa;
 
+import java.util.Optional;
+
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -17,9 +19,9 @@ public class BuscaEstadoMain {
 
 		EstadoRepository repository = applicationContext.getBean(EstadoRepository.class);
 		
-		Estado estado = repository.buscar(1L);
+		Optional<Estado> estado = repository.findById(1L);
 
-		System.out.println(estado.getNome());
+		System.out.println(estado.get().getNome());
 
 	}
 

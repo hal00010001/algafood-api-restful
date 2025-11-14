@@ -24,7 +24,7 @@ public class AlteracaoRestauranteMain {
 		restaurante.setNome("Comida Brasileira");
 		restaurante.setTaxaFrete(new BigDecimal("14.00"));
 		
-		repository.salvar(restaurante);
+		repository.save(restaurante);
 		
 	}
 

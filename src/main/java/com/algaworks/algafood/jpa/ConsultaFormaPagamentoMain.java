@@ -18,7 +18,7 @@ public class ConsultaFormaPagamentoMain {
 				AlgafoodApiApplication.class).web(WebApplicationType.NONE).run(args);
 
 		FormaPagamentoRepository repository = applicationContext.getBean(FormaPagamentoRepository.class);
-		List<FormaPagamento> formaPagamentos = repository.listar();
+		List<FormaPagamento> formaPagamentos = repository.findAll();
 
 		for (FormaPagamento formaPagamento : formaPagamentos) {
 			System.out.printf("%s\n", formaPagamento.getDescricao());

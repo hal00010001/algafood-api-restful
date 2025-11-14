@@ -98,6 +98,16 @@ public class CozinhaController {
 	 * }
 	 */
 	
+	@GetMapping("/like")
+	public List<Cozinha> buscarComLike(String nome){
+		return repository.findTodasByNomeContaining(nome);
+	}
+	
+	@GetMapping("/exists")
+	public boolean verificarNomeExiste(String nome) {
+		return repository.existsByNome(nome);
+	}
+		
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Cozinha adicionar(@RequestBody Cozinha cozinha) {		

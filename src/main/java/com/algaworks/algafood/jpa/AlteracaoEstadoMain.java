@@ -21,7 +21,7 @@ public class AlteracaoEstadoMain {
 		estado.setId(1L);
 		estado.setNome("Santa Catarina");
 				
-		repository.salvar(estado);
+		repository.save(estado);
 		
 	}
 

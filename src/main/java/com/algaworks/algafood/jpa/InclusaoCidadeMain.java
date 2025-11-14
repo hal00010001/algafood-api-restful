@@ -31,8 +31,8 @@ public class InclusaoCidadeMain {
 		cidade2.setEstado(estado);
 		
 		
-		cidade1 = repository.salvar(cidade1);
-		cidade2 = repository.salvar(cidade2);
+		cidade1 = repository.save(cidade1);
+		cidade2 = repository.save(cidade2);
 		
 		System.out.printf("%d - %s - %s\n", cidade1.getId(), cidade1.getNome(), cidade1.getEstado().getNome());
 		System.out.printf("%d - %s - %s\n", cidade2.getId(), cidade2.getNome(), cidade2.getEstado().getNome());

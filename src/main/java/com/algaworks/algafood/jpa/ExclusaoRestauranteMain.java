@@ -16,7 +16,7 @@ public class ExclusaoRestauranteMain {
 
 		RestauranteRepository repository = applicationContext.getBean(RestauranteRepository.class);
 		
-		repository.remover(1L);
+		repository.deleteById(1L);
 		
 	}
 

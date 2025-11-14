@@ -22,7 +22,7 @@ public class AlteracaoPermissaoMain {
 		permissao.setNome("BUSCAR_COZINHAS");
 		permissao.setDescricao("Permite buscar cozinhas");
 		
-		repository.salvar(permissao);
+		repository.save(permissao);
 		
 	}
 

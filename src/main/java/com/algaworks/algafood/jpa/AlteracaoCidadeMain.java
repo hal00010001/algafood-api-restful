@@ -27,7 +27,7 @@ public class AlteracaoCidadeMain {
 		cidade.setNome("Guaratuba");
 		cidade.setEstado(estado);
 		
-		repository.salvar(cidade);
+		repository.save(cidade);
 		
 	}
 

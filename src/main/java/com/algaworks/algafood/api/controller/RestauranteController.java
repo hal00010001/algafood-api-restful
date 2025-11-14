@@ -1,8 +1,10 @@
 package com.algaworks.algafood.api.controller;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,18 +40,44 @@ public class RestauranteController {
 
 	@GetMapping
 	public List<Restaurante> listar() {
-		return repository.listar();
+		return repository.findAll();
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Restaurante> buscar(@PathVariable Long id) {
-		Restaurante restaurante = repository.buscar(id);
-		if (restaurante != null) {
-			return ResponseEntity.ok(restaurante);
+		Optional<Restaurante> restaurante = repository.findById(id);
+		if (restaurante.isPresent()) {
+			return ResponseEntity.ok(restaurante.get());
 		}
 		return ResponseEntity.notFound().build();
 	}
+	
+	@GetMapping("/taxa-frete")
+	public List<Restaurante> restaurantesPorTaxaFrete(
+			BigDecimal taxaInicial, BigDecimal taxaFinal){
+		return repository.findByTaxaFreteBetween(taxaInicial, taxaFinal);
+	}
+	
+	@GetMapping("/nome-cozinha")
+	public List<Restaurante> restaurantesPorNomeECozinhaId(String nome, Long cozinhaId){
+		return repository.findByNomeContainingAndCozinhaId(nome, cozinhaId);
+	}
 
+	@GetMapping("/primeiro-nome")
+	public Optional<Restaurante> buscarPrimeiroRestaurantePorNome(String nome){
+		return repository.findFirstRestauranteByNomeContaining(nome);
+	}
+	
+	@GetMapping("/top2")
+	public List<Restaurante> buscarTop2RestaurantesPorNome(String nome){
+		return repository.findTop2ByNomeContaining(nome);
+	}
+	
+	@GetMapping("/count-cozinhas")
+	public int contagemCozinhas(Long cozinhaId) {
+		return repository.countByCozinhaId(cozinhaId);
+	}
+	
 	@PostMapping
 	public ResponseEntity<?> adicionar(@RequestBody Restaurante restaurante) {
 		try {
@@ -64,10 +92,10 @@ public class RestauranteController {
 	@PutMapping("/{id}")
 	public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody Restaurante restaurante) {
 		try {
-			Restaurante restauranteAtual = repository.buscar(id);
+			Optional<Restaurante> restauranteAtual = repository.findById(id);
 			if (restauranteAtual != null) {
 				BeanUtils.copyProperties(restaurante, restauranteAtual, "id");
-				service.salvar(restauranteAtual);
+				service.salvar(restauranteAtual.get());
 				return ResponseEntity.ok(restauranteAtual);
 			}
 			return ResponseEntity.notFound().build();
@@ -91,13 +119,13 @@ public class RestauranteController {
 	@PatchMapping("/{id}")
 	public ResponseEntity<?> atualizarParcial(@PathVariable Long id, @RequestBody Map<String, Object> campos) {
 
-		Restaurante restauranteAtual = repository.buscar(id);
+		Optional<Restaurante> restauranteAtual = repository.findById(id);
 		if (restauranteAtual == null) {
 			return ResponseEntity.notFound().build();
 		}
 
-		merge(campos, restauranteAtual);
-		return atualizar(id, restauranteAtual);
+		merge(campos, restauranteAtual.get());
+		return atualizar(id, restauranteAtual.get());
 	}
 
 	private void merge(Map<String, Object> dadosOrigem, Restaurante restauranteDestino) {
